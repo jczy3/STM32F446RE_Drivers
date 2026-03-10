@@ -1,0 +1,2 @@
+High speed external clock (HSE)
+For Nucleo boards (F446RE), there is no onboard crystal oscillator. We use the external clock configuration (MCO from ST-LINK). On ST-LINK, HSE is supplied to the microcontroler from the ST-LINK circutry. We pull 8 MHz clock to use as HSE.
