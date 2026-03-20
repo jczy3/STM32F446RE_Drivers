@@ -64,9 +64,17 @@ typedef struct
 #define GPIO_MODE_IT_RFT		6
 
 /*
- * @GPIO_PIN_SPEED
+ * @GPIO_GPIO_OP_TYPE
  * GPIO pin possible output types
  */
+#define GPIO_OP_TYPE_PP			0
+#define GPIO_OP_TYPE_OD			1
+
+/*
+ * @GPIO_PIN_SPEED
+ * GPIO pin possible speeds
+ */
+
 #define GPIO_SPEED_LOW			1
 #define GPIO_SPEED_MEDIUM		2
 #define GPIO_SPEED_FAST			3
