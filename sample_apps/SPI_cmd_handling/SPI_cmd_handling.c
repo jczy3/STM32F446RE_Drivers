@@ -121,6 +121,7 @@ int main (void)
 
 	while(1)
 	{
+		//Wait until the button is pressed
 		while (GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13));
 
 		delay();
@@ -153,6 +154,46 @@ int main (void)
 			args[1] = LED_ON;
 			SPI_SendData(SPI2, args, 2);
 		}
+
+		//2. CMD_SENSOR_READ		<analog pin number(1)>
+
+		//Wait until the button is pressed
+		while (GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13));
+
+		delay();
+
+		commandCode = COMMAND_SENSOR_READ;
+
+		//Send command
+		SPI_SendData(SPI2, &commandCode, 1);
+
+		//Do a dummy read to clear the RXNE
+		SPI_ReceiveData(SPI2, &dummy_read, 1);
+
+		//Send a dummy byte to fetch the response from the slave
+		SPI_SendData(SPI2, &dummy_write, 1);
+
+		//Read the ackbyte received in the RxBuffer
+		SPI_ReceiveData(SPI2, &ackbyte, 1);
+
+		if(SPI_VerifyResponse(ackbyte))
+		{
+			//send arguments
+			args[0] = ANALOG_PIN0;
+			SPI_SendData(SPI2, args, 1);
+
+			//Do a dummy read to clear the RXNE
+			SPI_ReceiveData(SPI2, &dummy_read, 1);
+
+			delay();
+
+			//Send a dummy byte to fetch the response from the slave
+			SPI_SendData(SPI2, &dummy_write, 1);
+
+			uint8_t analog_read;
+			SPI_ReceiveData(SPI2, &analog_read, 1);
+		}
+
 
 		// Confirm SPI is not busy
 		while(SPI_GetFlagStatus(SPI2, SPI_BUSY_FLAG));
